@@ -24,16 +24,17 @@ for idx in range(len(flist)):
                 if num == 0:
                     res_dict['name'] = lines[num].strip()
                 elif num == 1:
-                    res_dict['weight'] = lines[num].strip()
+                    lbs_cnt = int(lines[num].strip().split(" ")[0])
+                    res_dict['weight'] = lbs_cnt
                 else:
                     txt_list.append(lines[num].strip())
 
         res_dict['description'] = " ".join(txt_list)
         res_dict['image_name'] = nm + ".jpeg"
 
-    response = requests.post(url, data=json.dumps(res_dict), headers=headers)
-
-    print(response.status_code)
-    print(response.request.url)
-    print(response.text)
-    time.sleep(5)
+    print(json.dumps(res_dict))
+    #response = requests.post(url, data=json.dumps(res_dict), headers=headers)
+    #print(response.status_code)
+    #print(response.request.url)
+    #print(response.text)
+    #time.sleep(5)

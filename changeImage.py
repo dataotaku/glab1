@@ -1,6 +1,5 @@
 import os
 from PIL import Image
-# print(os.listdir("./images"))
 dir_nm = "./supplier-data/images/"
 file_list = os.listdir(dir_nm)
 for num, file in enumerate(file_list):
