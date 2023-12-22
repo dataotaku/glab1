@@ -5,7 +5,7 @@ from PIL import Image
 file_list = os.listdir("./images")
 for num, file in enumerate(file_list):
     im = Image.open("./images/"+file)
-    if im.mode in ("RGBA", "P"):
+    if im.mode in ("RGBA", "P", "LA"):
         im = im.convert("RGB")
     nm = file.split(".")[0]
     # print(nm)

@@ -3,8 +3,8 @@
 import json
 import locale
 import sys
-import emails
-import reports
+import emails_old
+import reports_old
 
 def load_data(filename):
   """Loads the contents of filename as a JSON file."""
@@ -78,13 +78,13 @@ def main(argv):
   print(summary)
   # TODO: turn this into a PDF report
   dict_table = cars_dict_to_table(data)
-  reports.generate("/tmp/cars.pdf", "Sales Summmay for last month<br/>",
+  reports_old.generate("/tmp/cars.pdf", "Sales Summmay for last month<br/>",
           "\n".join(summary), dict_table)
   # TODO: send the PDF report as an email attachment
-  msg = emails.generate("automation@example.com", "student-03-748ac797144d@example.com",
+  msg = emails_old.generate("automation@example.com", "student-03-748ac797144d@example.com",
           "Sales summary for last month", "The same summary from the PDF, but using \n between the lines",
           "/tmp/cars.pdf")
-  emails.send(msg)
+  emails_old.send(msg)
 
 if __name__ == "__main__":
   main(sys.argv)
