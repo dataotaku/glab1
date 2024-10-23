@@ -28,19 +28,17 @@ title_txt = "광역 전입사유별 순위변동 추이 Revisited4"
 landscape(A4)[0], landscape(A4)[1]
 page_width, page_height = landscape(A4)
 
-frame_width = landscape(A4)[0]
-frame_height = landscape(A4)[1]
+frame_width = page_width - 2 * cm  # 프레임 너비를 페이지 너비보다 작게 설정
+frame_height = page_height - 2 * cm  # 프레임 높이를 페이지 높이보다 작게 설정
 
-text_frame = Frame(0, 0, 
-                   frame_width, 
-                   frame_height, id='text_frame')
+# 첫 번째 페이지 프레임
+first_page_frame = Frame(cm, cm, frame_width, frame_height, id='first_page_frame')
 
-
-# 2) 이미지데이터 전처리
+# 이후 페이지 프레임
+later_pages_frame = Frame(cm, cm, frame_width, frame_height, id='later_pages_frame')
 
 file_list = os.listdir(dir_nm)
 png_list = [file for file in file_list if file.endswith(".png")]
-
 
 class NumberedPageTemplate(PageTemplate):
     def beforeDrawPage(self, canvas, doc):
@@ -75,7 +73,16 @@ def onLaterPages(canvas, doc):
     canvas.drawString(page_width - 100, 30, page_number_text)
     canvas.restoreState()
 
-doc = SimpleDocTemplate(str(dir_nm + title_txt + '.pdf'), pagesize=landscape(A4))
+doc = BaseDocTemplate(str(dir_nm + title_txt + '.pdf'), pagesize=landscape(A4))
+
+# 첫 번째 페이지 템플릿
+first_page_template = PageTemplate(id='FirstPage', frames=[first_page_frame], onPage=onFirstPage)
+
+# 이후 페이지 템플릿
+later_pages_template = PageTemplate(id='LaterPages', frames=[later_pages_frame], onPage=onLaterPages)
+
+# 템플릿 추가
+doc.addPageTemplates([first_page_template, later_pages_template])
 
 # 첫 번째 페이지에 제목과 날짜 추가
 L = [TitlePage(), Spacer(1, 2*cm)]  # TitlePage와 Spacer를 첫 번째 페이지에 추가
@@ -88,9 +95,11 @@ for num, file in enumerate(png_list):
     imgdata = BytesIO(im.tobytes())
     im.save(imgdata, 'PNG')
     imgdata.seek(0)
-    L.append(platypus.Image(imgdata, width=24.16 * cm, height=15.92 * cm))
+    # 이미지 크기를 프레임 크기에 맞게 조정
+    image = platypus.Image(imgdata, width=frame_width, height=frame_height)
+    L.append(image)
 
-doc.build(L, onFirstPage=onFirstPage, onLaterPages=onLaterPages)
+doc.build(L)
 
 
 # 3) PDF 생성
