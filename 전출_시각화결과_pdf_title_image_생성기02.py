@@ -59,7 +59,7 @@ my_title_style.spaceAfter = 5
 h1_title = Paragraph(title_txt, my_title_style)
 h1_title
 my_vis_style = sample_style_sheet['h3']
-my_vis_style.fontName = '맑은고딕체'
+my_vis_style.fontName = '맑은고딕'
 my_vis_style.fontSize = 25
 my_vis_style.alignment = 1
 my_vis_style.spaceAfter = 5
@@ -67,7 +67,7 @@ h3_vis = Paragraph("(시각화 결과 리뷰용 PDF)", my_vis_style)
 h3_vis
 
 my_body_style = sample_style_sheet['h6']
-my_body_style.fontName = '맑은고딕체'
+my_body_style.fontName = '맑은고딕'
 my_body_style.fontSize = 15
 my_body_style.alignment = 1
 my_body_style.spaceAfter = 5
